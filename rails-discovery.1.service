@@ -1,0 +1,10 @@
+[Unit]
+Description=Announces Rails 1
+BindsTo=rails.1.service
+
+[Service]
+ExecStart=/bin/bash -c "HOST_IP=$(/bin/ifconfig enp0s8 | awk '/inet /{print $2}') && while true; do etcdctl set /vulcand/upstreams/up/endpoints/r1 http://$HOST_IP:8080 --ttl 60;sleep 45;done"
+ExecStop=/usr/bin/etcdctl rm /vulcand/upstreams/up/endpoints/r1
+
+[X-Fleet]
+X-ConditionMachineOf=rails.1.service
