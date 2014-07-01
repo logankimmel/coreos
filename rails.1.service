@@ -1,0 +1,11 @@
+[Unit]
+Description=My Rails Frontend
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run --name web -p 8080:80 logankimmel/dockertest
+ExecStop=/usr/bin/docker stop web
+
+[X-Fleet]
+X-Conflicts=rails.*.service
